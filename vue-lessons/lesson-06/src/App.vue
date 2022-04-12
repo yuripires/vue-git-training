@@ -7,12 +7,12 @@
       <div class="infoImage">
         <img :src="image" />
       </div>
-      <li>
+      
       <p v-if="inventory > 10"> In Stock</p>
       <p v-else-if="inventory <= 10 && inventory > 0"> Almost out of Stock</p>
-      <p v-if="inventory = 0 "> Out of Stock</p>
+      <p v-else> Out of Stock</p>
       <a :href="link" target="blank"> link for the shop </a>
-      </li>
+      
       
       <li v-for="detail in details" :key="detail">
         <p>{{ detail }}</p>
