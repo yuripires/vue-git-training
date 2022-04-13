@@ -1,5 +1,5 @@
 <template>
-    <body>
+    <body style="text-align: center">
     <div id="navigator"></div>
     <div id="app">
       <h1>{{ title }}</h1>
@@ -29,17 +29,35 @@
       <button @click="subCart" :disabled="!inStock" :class="{disabledButton: !inStock}">Remove from the cart</button>
       
     </div>
+    <div>
+      <h2>Reviews:</h2>
+      
+      <p v-if="!reviews.lenght"> There are no reviews yet.</p>
+      
+      <ul>
+        <li v-for="review in reviews" :key="review.name">
+          <p> Name: {{review.name}} </p>
+          <p> Review: {{review.review}} </p>
+          <p> Rating: {{review.rating}} </p>
+          <p> Is this product recomended? {{review.recomend}}</p>
+
+        </li>
+      </ul>
+    </div>
+    <product-review @review-submitted="addReview"></product-review>
   </body>
 </template>
 
 <script>
+import productReview from './productReview.vue'
+
 export default {
+  components: { productReview },
     data() {
     return {
       product: 'Socks',
       brand: 'Vue Mastery',
       selectedVariant: 0,
-      
       link: 'https://shopee.com.br/Meia-Cano-Longo-Naruto-Akatsuki-Anim%C3%AA-i.349214594.5278560019',
       details:["80% cotton","20% polyester","Gender-Neutral"],
       variants: [{
@@ -58,6 +76,7 @@ export default {
       }],
 
       cart:0,
+      reviews:[],
     }
   },
 
@@ -71,8 +90,12 @@ export default {
   },
   subCart(){
     this.$emit('add-to-cart',-1)
-  }
   },
+  addReview(productReview){
+    this.reviews.push(productReview)
+  },
+  },
+
   computed:{
     title(){ if (this.variants[this.selectedVariant].onSale == true )
     {return 'On Sale'+ ' ' + this.brand + ' ' + this.product}
